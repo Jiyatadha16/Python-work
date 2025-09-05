@@ -13,4 +13,6 @@ ax[0].set_title('Line chart')
 ax[1].bar(x,y)
 ax[1].set_title('Bar chart')
 
+#fig, ax=plt.subplots(2,1, sharex=True)
+
 plt.show()
