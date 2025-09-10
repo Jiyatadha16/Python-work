@@ -28,42 +28,28 @@ print("Sample student data created!")
 # -------------------------
 # 4. Pie Chart Animation – Subject distribution for a student
 # -------------------------
-def animate_pie_chart():
+def pie_animation():
     df = pd.read_csv("student_data.csv")
-
     exams = sorted(df["Exam"].unique())
-    student = "Alice"  # Example: animate for Alice
+    student = "Alice"
 
-    fig, ax = plt.subplots(figsize=(8, 8))
-    colors = plt.cm.Set3(np.linspace(0, 1, len(subjects)))
+    fig, ax = plt.subplots()
 
     def animate(frame):
         ax.clear()
-        current_exam = exams[frame]
-        current_data = df[(df["Exam"] == current_exam) & (df["Student"] == student)]
+        exam = exams[frame]
+        data = df[(df["Exam"] == exam) & (df["Student"] == student)]
 
-        wedges, texts, autotexts = ax.pie(current_data["Marks"],
-                                          labels=current_data["Subject"],
-                                          colors=colors,
-                                          autopct="%1.1f%%",
-                                          startangle=90,
-                                          explode=[0.05] * len(current_data))
-
-        for autotext in autotexts:
-            autotext.set_color("white")
-            autotext.set_fontweight("bold")
-
-        ax.set_title(f"{student}'s Marks Distribution - {current_exam}",
-                     fontsize=16, fontweight="bold")
-        ax.axis("equal")
+        ax.pie(data["Marks"], labels=data["Subject"], autopct="%1.1f%%", startangle=90)
+        ax.set_title(f"{student}'s Marks - {exam}")
 
     anim = animation.FuncAnimation(fig, animate, frames=len(exams),
                                    interval=1000, repeat=True)
     plt.show()
-    return anim
+
 
 # -------------------------
 # Run New Animations
 # -------------------------
 
-pie_anim = animate_pie_chart()
+pie_anim = pie_animation()

@@ -28,45 +28,30 @@ print("Sample student data created!")
 # -------------------------
 # 5. Histogram Animation – Distribution of marks
 # -------------------------
-def animate_histogram():
+def hist_animation():
     df = pd.read_csv("student_data.csv")
-
     exams = sorted(df["Exam"].unique())
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots()
 
     def animate(frame):
         ax.clear()
-        current_exam = exams[frame]
-        current_data = df[df["Exam"] <= current_exam]
+        exam = exams[frame]
+        data = df[df["Exam"] <= exam]
 
-        n, bins, patches = ax.hist(current_data["Marks"], bins=10,
-                                   alpha=0.7, color="skyblue",
-                                   edgecolor="black", linewidth=1)
-
-        # Color intensity based on frequency
-        if len(n) > 0 and max(n) > 0:
-            for patch, count in zip(patches, n):
-                patch.set_facecolor(plt.cm.viridis(count / max(n)))
-
-        mean_marks = current_data["Marks"].mean()
-        ax.axvline(mean_marks, color="red", linestyle="--", linewidth=2, label=f"Mean: {mean_marks:.1f}")
-
-        ax.set_title(f"Marks Distribution - Up to {current_exam}",
-                     fontsize=14, fontweight="bold")
+        ax.hist(data["Marks"], bins=10, color="lightgreen", edgecolor="black")
+        ax.set_title(f"Marks Distribution - Up to {exam}")
         ax.set_xlabel("Marks")
         ax.set_ylabel("Frequency")
         ax.set_xlim(30, 100)
-        ax.legend()
-        ax.grid(True, alpha=0.3)
 
     anim = animation.FuncAnimation(fig, animate, frames=len(exams),
-                                   interval=900, repeat=True)
+                                   interval=1000, repeat=True)
     plt.show()
-    return anim
+
 
 # -------------------------
 # Run New Animations
 # -------------------------
 
-hist_anim = animate_histogram()
+hist_anim = hist_animation()
